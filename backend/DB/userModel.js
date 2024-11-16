@@ -12,6 +12,12 @@ const userSchema = new Schema({
     password: {
         type: String,
     },
+    college: {
+        type:String
+    },
+    ImgPath: {
+        type: String,
+    },
     
 });
 
