@@ -1,8 +1,14 @@
 import React from 'react';
+import Nav from './nav';
 
 const Home = () => {
     return (
-    <h1 className='text-3xl font-bold underline'> Hello world! </h1> 
+        <>
+        <Nav message='home'></Nav>
+        <main>
+            
+        </main>
+        </>
     );
 };
 

@@ -8,12 +8,15 @@ import PostModel from './DB/postModel.js';
 import jwt from 'jsonwebtoken';
 import helmet from 'helmet';
 import { body, validationResult } from 'express-validator';
+import path from "path"
 
 dotenv.config();
 
 const app = express();
 const port = 5000;
 const mongoURI = 'mongodb://localhost:27017/mgram';
+app.use(express.static("avatars"));
+
 
 app.use(cors());
 app.use(helmet()); // For enhanced security headers
@@ -43,9 +46,9 @@ app.post("/api/reg", [
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
-
-    const { username, email, password,college } = req.body;
-
+    
+    const { username, email, password,college, Img } = req.body;
+    console.log(Img)
     try {
         const [existingEmailUser, existingUsername] = await Promise.all([
             UserModel.findOne({ email: email }),
@@ -58,7 +61,7 @@ app.post("/api/reg", [
             const saltRounds = 10;
             const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-            const newUser = await UserModel.create({ username, email, password: hashedPassword,college });
+            const newUser = await UserModel.create({ username, email, password: hashedPassword,college, ImgPath: Img });
             const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: '60d' });
 
             console.log(token);
@@ -118,6 +121,23 @@ app.post("/api/userPost",async(req,res)=>{
     } catch (error) {
         console.log(error)
         res.status(500).json({ message: "Error creating post"});
+    }
+})
+
+
+app.post("/api/getUserInfo",async(req,res)=>{
+    const token = req.body.token;
+    console.log("i cmae here")
+    if(!token) res.status(403).json({ message: "Not Authorized"});
+    
+    const decoded  = jwt.verify(token,process.env.JWT_SECRET);
+    try {
+        let user = await UserModel.findById(decoded.id);
+        user.password = "YOU-WONT-GET-IT-SUCKER!!!#!@#!@#!@#!@#!#";
+
+        res.status(200).json({ userData: user });
+    } catch (error) {
+        res.status(500).json({error:error.message})
     }
 })
 

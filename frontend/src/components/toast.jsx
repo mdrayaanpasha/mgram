@@ -15,7 +15,7 @@ export default function Toast({ message }) {
     return (
         <>
             {visible && (
-                <div className="fixed top-5 right-5 rounded-md text-white px-6 py-3 bg-indigo-400 shadow-lg transition-opacity duration-300 opacity-100">
+                <div className="fixed top-5 right-5 rounded-md text-white px-6 py-3 bg-black shadow-lg transition-opacity duration-300 opacity-100">
                     <p className="font-medium">{message}</p>
                 </div>
             )}

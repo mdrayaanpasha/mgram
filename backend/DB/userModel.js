@@ -14,7 +14,10 @@ const userSchema = new Schema({
     },
     college: {
         type:String
-    }
+    },
+    ImgPath: {
+        type: String,
+    },
     
 });
 
