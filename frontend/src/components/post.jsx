@@ -32,6 +32,7 @@ export default function Post() {
             if (resp.status === 200) {
                 data.Username = resp.data.User.username;
                 data.College = resp.data.User.college;
+                data.Pfp=resp.data.User.ImgPath;
             }
         } catch (error) {
             handleError(error);
@@ -71,15 +72,55 @@ export default function Post() {
             <Nav message="post"></Nav>
             {toast && <Toast message={toast} />}
             <main className="fixed left-1/4 w-4/5 p-5 ">
-                <form onSubmit={submitForm}>
-                    <textarea name="Learn" placeholder="Write what you want to learn here..." />
+            <center>
+                <form onSubmit={submitForm} className="mt-40">
+                    <h1 className="text-3xl font-semibold mb-10">Post your request!</h1>
+
+                    <div>
+                        <label htmlFor="OrderNotes" className="sr-only">Order notes</label>
+                        <div className="overflow-hidden w-1/2">
+                            <textarea
+                            id="OrderNotes"
+                            name="Learn"
+                            className="w-full resize-none border-x-0 border-t-0 border-gray-200 px-0 align-top sm:text-sm"
+                            rows="3"
+                            placeholder="What do you wanna learn?"
+                            ></textarea>
+                        </div>
+                    </div>
                     <br />
-                    <textarea name="Teach" placeholder="Write what you want to teach here..." />
+
+
+                    <div>
+                        <label htmlFor="OrderNotes" className="sr-only">Order notes</label>
+                        <div className="overflow-hidden w-1/2">
+                            <textarea
+                            id="OrderNotes"
+                            name="Teach"
+                            className="w-full resize-none border-x-0 border-t-0 border-gray-200 px-0 align-top sm:text-sm"
+                            rows="3"
+                            placeholder="What do you wanna teach?"
+                            ></textarea>
+                        </div>
+                    </div>
                     <br />
-                    <textarea name="Message" placeholder="Write any additional message here..." />
+
+                    <div>
+                        <label htmlFor="OrderNotes" className="sr-only">Order notes</label>
+                        <div className="overflow-hidden w-1/2">
+                            <textarea
+                            id="OrderNotes"
+                            name="Message"
+                            className="w-full resize-none border-x-0 border-t-0 border-gray-200 px-0 align-top sm:text-sm"
+                            rows="3"
+                            placeholder="Message to your peer?"
+                            ></textarea>
+                        </div>
+                    </div>
                     <br />
-                    <button type="submit">Submit</button>
+                    <button type="submit" class="px-2 py-2 w-40 text-white font-semi-bold rounded-md bg-black">Submit</button>
                 </form>
+                </center>
             </main>
             
         </>

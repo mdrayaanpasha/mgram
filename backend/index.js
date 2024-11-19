@@ -127,7 +127,6 @@ app.post("/api/userPost",async(req,res)=>{
 
 app.post("/api/getUserInfo",async(req,res)=>{
     const token = req.body.token;
-    console.log("i cmae here")
     if(!token) res.status(403).json({ message: "Not Authorized"});
     
     const decoded  = jwt.verify(token,process.env.JWT_SECRET);
@@ -140,6 +139,46 @@ app.post("/api/getUserInfo",async(req,res)=>{
         res.status(500).json({error:error.message})
     }
 })
+
+
+app.post("/api/fetchFeedInfo", async (req, res) => {
+    const token = req.body.Token;
+    
+    // Check for token
+    if (!token) {
+        return res.status(403).json({ message: "Not Authorized" });
+    }
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+        let user = await UserModel.findById(decoded.id);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        user.password = undefined; 
+
+        //now that we have users info lets get some posts from his college!
+
+        let collegeData  = await PostModel.find({College:user.college})
+
+        res.status(200).json({ posts: collegeData});
+
+    } catch (e) {
+        console.error("Error fetching user:", e);
+        if (e instanceof jwt.JsonWebTokenError) {
+            return res.status(401).json({ message: "Invalid or expired token" });
+        }
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+});
+
+
+
+
+
+
 
 // Error Handling Middleware
 app.use((err, req, res, next) => {

@@ -10,5 +10,8 @@ theme: {
           },
     },
 },
-plugins: [],
+plugins: [
+    require('@tailwindcss/forms'),
+    // other plugins...
+  ],
 }

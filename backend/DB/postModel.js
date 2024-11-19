@@ -18,6 +18,10 @@ const userSchema = new Schema({
     },
     Username:{
         type: String
+    },
+    Pfp:{
+        type: String,
+        default: "d-p"
     }
 });
 
